@@ -1,0 +1,133 @@
+/* PROTOCOL.hex: the canvas is scaled to fit the window (16:9); the splash and the touch buttons sit over it. */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background-color: #020611;
+    font-family: Consolas, 'Courier New', monospace;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#game {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(100vw, calc(100vh * 16 / 9));
+    height: min(100vh, calc(100vw * 9 / 16));
+    background-color: #020611;
+}
+
+#splash {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background-color: #020611;
+    cursor: pointer;
+    text-align: center;
+    padding: 0 16px;
+    transition: opacity 0.5s;
+}
+
+#splash.gone {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#splash .title {
+    margin: 0;
+    color: #39ff6a;
+    font-size: min(96px, 14vw);
+    letter-spacing: 0.06em;
+}
+
+#splash .title span {
+    color: #f088e9;
+}
+
+#splash .tag {
+    margin: 0;
+    color: #34a9e3;
+    font-size: 18px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+}
+
+#splash .blurb {
+    margin: 4px 0 10px;
+    color: #39ff6a;
+    font-size: 15px;
+}
+
+#splash .cursor,
+#splash .press {
+    animation: blink 1.2s steps(2, start) infinite;
+}
+
+#splash .cursed-logo {
+    width: min(260px, 50vw);
+}
+
+#splash .copyright {
+    margin: 0;
+    color: #8fa3b3;
+    font-size: 14px;
+}
+
+#splash .press {
+    margin: 18px 0 0;
+    color: #f088e9;
+    font-size: 19px;
+    letter-spacing: 0.08em;
+}
+
+@keyframes blink {
+    to { visibility: hidden; }
+}
+
+/* touch: swipe on the board to steer; these buttons for the rest */
+#touch {
+    display: none;
+}
+
+body.touch.playing #touch {
+    display: flex;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+#touch button {
+    width: 64px;
+    height: 40px;
+    border: 2px solid #39ff6a;
+    border-radius: 6px;
+    background-color: #001725;
+    color: #39ff6a;
+    font-family: inherit;
+    font-size: 13px;
+    opacity: 0.8;
+    touch-action: none;
+}
+
+#touch button.big {
+    height: 64px;
+    border-color: #f088e9;
+    color: #f088e9;
+    font-size: 16px;
+}
+
+#touch button.down {
+    background-color: #005184;
+}

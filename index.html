@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>PROTOCOL.hex - Arcade Phantasm</title>
+    <link rel="stylesheet" href="site/style.css">
+</head>
+
+<body>
+    <canvas id="game" width="960" height="540"></canvas>
+    <div id="splash">
+        <h1 class="title">PROTOCOL<span>.hex</span></h1>
+        <p class="tag">An Arcade Phantasm game</p>
+        <p class="blurb">&gt; you are the virus. infect the system. rot its walls. stay out of sight.<span class="cursor">_</span></p>
+        <img class="cursed-logo" src="images/cursed-logo.png" alt="Cursed Entertainment">
+        <p class="copyright">&copy; Cursed Entertainment 2026</p>
+        <p class="press">Press any key or tap to start</p>
+    </div>
+    <div id="touch">
+        <button data-k="rot" class="big">ROT</button>
+        <button data-k="burst">RUN</button>
+        <button data-k="trap">TRAP</button>
+        <button data-k="cloak">HIDE</button>
+        <button data-k="split">SPLIT</button>
+        <button data-k="pause">II</button>
+    </div>
+    <script src="site/sfx.js"></script>
+    <script src="site/game.js"></script>
+</body>
+
+</html>
