@@ -32,7 +32,7 @@ You're a virus loose inside a computer system. Slide along the glowing pathways 
 ## Versions
 
 - **Browser**: this one, right here at the repo root. [Play it](https://cursedprograms.github.io/ProtocolHex/).
-- **Windows exe**: coming, in `cpp/`.
+- **Windows exe**: in `cpp/`: download `ProtocolHex-win64.zip` from the [latest release](https://github.com/CursedPrograms/ProtocolHex/releases/latest), unzip, run `ProtocolHex.exe`.
 - **Android**: in `android/`, the APK in [`android/apk/`](android/apk/). See [Android](#android) below.
 
 ## How to play
@@ -66,6 +66,19 @@ Clear all six and the system reboots, faster, with more antivirus. Your best sco
 | M | mute |
 
 On a phone: swipe on the board to steer, tap to rot, and use the buttons on the right for the rest.
+
+## Windows exe
+
+C++17 with SDL2, OpenGL 3, [Dear ImGui](https://github.com/ocornut/imgui) and [stb](https://github.com/nothings/stb).
+The same game as the browser one: the same six sectors (built from the same seeds, so the same boards), the same
+security systems, abilities, scoring and sound effects (made as it plays, no audio files). Arrows / WASD move, Space rot,
+Shift burst, C trap, Q cloak, F split, P pause, M mute, F11 fullscreen, Esc menu. Your best score is kept in your
+user settings folder. `ProtocolHex.exe --shot` opens the staged moment from the Scanner sector.
+
+To build it: Visual Studio 2022 (C++) and CMake, then `cpp/build.bat` (or `build.ps1`; `build.sh` on Linux with
+SDL2 installed). It fetches SDL2 once into `cpp/external/`, builds `cpp/build/Release/ProtocolHex.exe` and packs
+`cpp/dist/ProtocolHex-win64.zip`. The code: `cpp/src/main.cpp` (window, splash), `game.cpp` (rules, drawing),
+`canvas.cpp` (a small canvas-like drawing layer over ImGui), `synth.cpp` (the sound effects).
 
 ## Android
 
