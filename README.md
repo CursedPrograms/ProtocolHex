@@ -32,7 +32,7 @@ You're a virus loose inside a computer system. Slide along the glowing pathways 
 ## Versions
 
 - **Browser**: this one, right here at the repo root. [Play it](https://cursedprograms.github.io/ProtocolHex/).
-- **Windows exe**: in `cpp/`: download `ProtocolHex-win64.zip` from the [latest release](https://github.com/CursedPrograms/ProtocolHex/releases/latest), unzip, run `ProtocolHex.exe`.
+- **Windows exe**: in `cpp/`: download `ProtocolHex-win64.zip` from the [latest release](https://github.com/CursedPrograms/protocol-hex/releases/latest), unzip, run `ProtocolHex.exe`.
 - **Android**: in `android/`, the APK in [`android/apk/`](android/apk/). See [Android](#android) below.
 
 ## How to play
