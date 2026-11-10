@@ -208,15 +208,43 @@ void Canvas::glowPoly(const std::vector<ImVec2>& pts, bool closed, float baseW) 
     dashOn_ = dOn;
 }
 
+// points closer than a hair are one point (a closing point on top of the first makes ImGui's thick-line joins spike)
+static void clean(std::vector<ImVec2>& p, bool closed) {
+    std::vector<ImVec2> o;
+    o.reserve(p.size());
+    for (const ImVec2& v : p)
+        if (o.empty() || std::fabs(v.x - o.back().x) + std::fabs(v.y - o.back().y) > 0.05f) o.push_back(v);
+    while (closed && o.size() > 2 && std::fabs(o.front().x - o.back().x) + std::fabs(o.front().y - o.back().y) <= 0.05f) o.pop_back();
+    p.swap(o);
+}
+
 void Canvas::fill() {
     for (Sub& sb : subs_) {
-        glowPoly(sb.pts, true, 0.f);
+        clean(sb.pts, true);
+        if (shadowBlur > 0.f && sb.pts.size() >= 3) {      // a glow: the shape pushed out from its middle, fading
+            ImVec2 m{0, 0};
+            for (const ImVec2& p : sb.pts) { m.x += p.x; m.y += p.y; }
+            m.x /= sb.pts.size(); m.y /= sb.pts.size();
+            std::vector<ImVec2> g(sb.pts.size());
+            for (int i = 3; i >= 1; --i) {
+                const float e = shadowBlur * s_ * i / 3.f * 0.6f;
+                for (size_t k = 0; k < sb.pts.size(); ++k) {
+                    const float dx = sb.pts[k].x - m.x, dy = sb.pts[k].y - m.y, d = std::max(0.001f, std::sqrt(dx * dx + dy * dy));
+                    g[k] = {sb.pts[k].x + dx / d * e, sb.pts[k].y + dy / d * e};
+                }
+                fillPoly(g, withAlpha(shadowColor, 0.10f * globalAlpha));
+            }
+        }
         fillPoly(sb.pts, col(fillStyle));
     }
 }
 void Canvas::stroke() {
     const float w = std::max(0.6f, lineWidth * s_ * matScale());
     for (Sub& sb : subs_) {
+        // a stroke that ends where it began is closed (a full circle, say)
+        const bool loop = sb.pts.size() > 2 && std::fabs(sb.pts.front().x - sb.pts.back().x) + std::fabs(sb.pts.front().y - sb.pts.back().y) <= 0.05f;
+        if (loop) sb.closed = true;
+        clean(sb.pts, sb.closed);
         glowPoly(sb.pts, sb.closed, w);
         strokePoly(sb.pts, sb.closed, col(strokeStyle), w);
     }

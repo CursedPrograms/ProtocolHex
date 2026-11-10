@@ -173,6 +173,8 @@
     if (sector + cycle * 6 > reached) { reached = sector + cycle * 6; if (!manual && !shot) localStorage.setItem("protocolHexReached", String(reached)); }
     log("> mount " + S.name.toLowerCase().replace(/ /g, "_") + ".sys");
     log("> " + S.intro);
+    var sealed = nodes.filter(function (o) { return o.vault; }).length;
+    if (sealed) log("> " + sealed + " vaults sealed in the walls: face one, ROT (SPACE) to break in");
   }
 
   function makeAV(c, r, guard) {
@@ -567,6 +569,13 @@
       ctx.fillRect(x - 2, y - 2, 4, 4);
       noGlow();
       if (o.restore) { ctx.strokeStyle = C.sky; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x, y, 13 + 2 * Math.sin(time * 3), 0, Math.PI * 2); ctx.stroke(); }
+      if (o.vault) {                                  // sealed in on purpose: a pink lock ring, so it reads as a target
+        ctx.strokeStyle = C.pink; ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 3]); ctx.lineDashOffset = -time * 8;
+        ctx.beginPath(); ctx.arc(x, y, 14 + 1.5 * Math.sin(time * 3 + o.flick), 0, Math.PI * 2); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = C.pink; ctx.font = "bold 9px Consolas, monospace"; ctx.textAlign = "center"; ctx.fillText("VAULT", x, y - 17);
+      }
       if (o.honey && ((time + o.flick) % 3.2) < 0.18) {
         ctx.fillStyle = C.green; ctx.font = "bold 14px Consolas, monospace"; ctx.textAlign = "center"; ctx.fillText("?", x, y - 11);
       }
